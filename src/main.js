@@ -9,9 +9,13 @@
 
 /* Vendor */
 import Vue from 'vue';
+import Vuex from 'vuex';
 
 /* Pages */
 import App from 'pages/App';
+
+/* Vue Store */
+import store from './store';
 
 /*
 |------------------------------------------------------------------------------
@@ -28,10 +32,22 @@ if (process.env.NODE_ENV === 'production') {
   Vue.config.productionTip = false;
 }
 
+Vue.use(Vuex);
+
 // Create Vue application instance.
 window.Oficina2cda = new Vue({
   render: h => h(App),
+  store: new Vuex.Store(store),
 });
+
+// Detect mobiles.
+const ua = navigator.userAgent;
+if (
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua) // eslint-disable-line
+) {
+  window.Oficina2cda.$store.commit('isMobile');
+}
+
 
 // Mount Vue app.
 window.Oficina2cda.$mount('#app');
